@@ -108,6 +108,7 @@ Future<XFile?> pickImageWithSource(String source) {
 Future logOut(AppBloc bloc) async {
   await CacheHelper.removeValue('uId');
   uId = '';
+  bloc.bottomNavIndex = 0;
   bloc.add(AppLogOut());
 }
 
@@ -123,6 +124,12 @@ void errorToast({required String error}) {
       message: error.toString(),
       toastLength: Toast.LENGTH_SHORT,
       backgroundColor: Colors.red);
+}
+
+void jumpToScreenEnd(BuildContext context, ScrollController controller) {
+  Future.delayed(Duration(milliseconds: 100));
+  controller.jumpTo(controller.position.maxScrollExtent +
+      MediaQuery.sizeOf(context).height * 0.05);
 }
 
 Future<void> pickProfileImage(String source, AppBloc bloc) async {

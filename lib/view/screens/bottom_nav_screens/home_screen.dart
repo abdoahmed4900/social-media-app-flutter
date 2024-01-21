@@ -42,6 +42,13 @@ class HomeScreen extends StatelessWidget {
                           ListView.separated(
                               physics: BouncingScrollPhysics(),
                               itemBuilder: (context, index) => PostWidget(
+                                    key: GlobalKey(
+                                        debugLabel: snapshot
+                                            .data!
+                                            .docs[snapshot.data!.docs.length -
+                                                1 -
+                                                index]
+                                            .data()['postId']),
                                     postModel: PostModel.fromMap(snapshot
                                         .data!
                                         .docs[snapshot.data!.docs.length -

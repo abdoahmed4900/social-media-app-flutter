@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../constants/constants.dart';
 import '../../logic/app_bloc/app_bloc.dart';
 import '../../models/message.dart';
+import 'image_message.dart';
 
 class MessageWidget extends StatelessWidget {
   const MessageWidget({
@@ -35,6 +36,9 @@ class MessageWidget extends StatelessWidget {
                             color: Colors.lightBlue,
                             width: MediaQuery.sizeOf(context).width / 120)),
                     child: Text(messageModel.message!)),
+              if (messageModel.photos != null)
+                for (var i in messageModel.photos!)
+                  ImageMessage(i: i, state: state)
             ],
           );
         },
@@ -42,30 +46,3 @@ class MessageWidget extends StatelessWidget {
     );
   }
 }
-
-
-              // Container(
-              //   child: messageModel.message != null
-              //       ? Container(
-              //           margin: EdgeInsets.all(
-              //               MediaQuery.sizeOf(context).width / 60),
-              //           padding: messageModel.message != null
-              //               ? EdgeInsets.all(
-              //                   MediaQuery.sizeOf(context).width / 60)
-              //               : null,
-              //           decoration: BoxDecoration(
-              //               color: Colors.lightBlue,
-              //               borderRadius: BorderRadius.circular(15),
-              //               border: messageModel.message == null
-              //                   ? Border.all(
-              //                       color: Colors.lightBlue,
-              //                       width:
-              //                           MediaQuery.sizeOf(context).width / 120)
-              //                   : null),
-              //           child: Text(
-              //             messageModel.message!,
-              //             style: TextStyle(fontSize: 18.sp),
-              //           ),
-              //         )
-              //       : 
-              // ),

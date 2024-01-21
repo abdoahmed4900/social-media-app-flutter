@@ -23,7 +23,7 @@ class PostWidget extends StatefulWidget {
   const PostWidget({
     Key? key,
     required this.postModel,
-    required this.index,
+    this.index = 0,
   }) : super(key: key);
 
   final PostModel postModel;
@@ -53,14 +53,18 @@ class _PostWidgetState extends State<PostWidget> {
                   height: MediaQuery.sizeOf(context).height / 11,
                   child: Row(
                     children: [
-                      PostUserImageWidget(widget: widget),
+                      PostUserImageWidget(
+                        postModel: widget.postModel,
+                      ),
                       SizedBox(
                         width: MediaQuery.sizeOf(context).width / 50,
                       ),
-                      PostUserNameWidget(widget: widget),
+                      PostUserNameWidget(postModel: widget.postModel),
                       Spacer(),
                       if (widget.postModel.userId == uId)
-                        PostSettingsWidget(widget: widget)
+                        PostSettingsWidget(
+                          postModel: widget.postModel,
+                        )
                     ],
                   ),
                 ),
@@ -69,15 +73,21 @@ class _PostWidgetState extends State<PostWidget> {
                 ),
                 if (widget.postModel.post.isNotEmpty &&
                     widget.postModel.postImages!.isEmpty)
-                  TextPostWidget(widget: widget),
+                  TextPostWidget(
+                    postModel: widget.postModel,
+                  ),
                 if (widget.postModel.postImages!.isNotEmpty &&
                     widget.postModel.post.isEmpty &&
                     widget.postModel.postImages!.length == 1)
-                  OneImagePostWidget(widget: widget),
+                  OneImagePostWidget(
+                    postModel: widget.postModel,
+                  ),
                 if (widget.postModel.postImages!.isNotEmpty &&
                     widget.postModel.post.isNotEmpty &&
                     widget.postModel.postImages!.length == 1)
-                  OneImageAndTextPost(widget: widget),
+                  OneImageAndTextPost(
+                    postModel: widget.postModel,
+                  ),
                 if (widget.postModel.postImages!.isNotEmpty &&
                     widget.postModel.post.isEmpty &&
                     widget.postModel.postImages!.length > 1)
@@ -111,7 +121,7 @@ class _PostWidgetState extends State<PostWidget> {
                       ),
                       Text(widget.postModel.likes.toString()),
                       LikeButton(
-                        widget: widget,
+                        postModel: widget.postModel,
                       ),
                       Spacer(),
                       Text(widget.postModel.commentsNumber.toString()),
@@ -141,7 +151,9 @@ class _PostWidgetState extends State<PostWidget> {
                     ),
                     CommentField(commentController: commentController),
                     AddCommentButton(
-                        widget: widget, commentController: commentController)
+                      commentController: commentController,
+                      postModel: widget.postModel,
+                    )
                   ],
                 ),
                 SizedBox(

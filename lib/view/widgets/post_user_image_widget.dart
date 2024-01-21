@@ -1,13 +1,13 @@
-import 'package:chat_app/view/widgets/post_widget.dart';
+import 'package:chat_app/models/post.dart';
 import 'package:flutter/material.dart';
 
 class PostUserImageWidget extends StatelessWidget {
   const PostUserImageWidget({
     super.key,
-    required this.widget,
+    required this.postModel,
   });
 
-  final PostWidget widget;
+  final PostModel postModel;
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +17,7 @@ class PostUserImageWidget extends StatelessWidget {
         decoration: BoxDecoration(
             shape: BoxShape.circle,
             image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(widget.postModel.userImage))),
+                fit: BoxFit.cover, image: NetworkImage(postModel.userImage))),
       ),
     );
   }

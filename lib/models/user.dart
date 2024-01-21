@@ -3,6 +3,7 @@ class UserModel {
   late String email;
   late String uId;
   late bool isEmailVerified;
+  late String notiifcationToken;
   late String? bio;
   late String? phone;
   late String userImage;
@@ -26,6 +27,7 @@ class UserModel {
       this.followingIds,
       this.bio,
       this.chats,
+      this.notiifcationToken = '',
       this.yourPostsNumber = 0,
       required this.isEmailVerified});
 

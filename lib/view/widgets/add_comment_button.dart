@@ -1,4 +1,4 @@
-import 'package:chat_app/view/widgets/post_widget.dart';
+import 'package:chat_app/models/post.dart';
 import 'package:flutter/material.dart';
 
 import '../../logic/app_bloc/app_bloc.dart';
@@ -6,11 +6,11 @@ import '../../logic/app_bloc/app_bloc.dart';
 class AddCommentButton extends StatelessWidget {
   const AddCommentButton({
     super.key,
-    required this.widget,
+    required this.postModel,
     required this.commentController,
   });
 
-  final PostWidget widget;
+  final PostModel postModel;
   final TextEditingController commentController;
 
   @override
@@ -19,10 +19,7 @@ class AddCommentButton extends StatelessWidget {
         child: IconButton(
             onPressed: () {
               AppBloc.get(context).addComment(
-                widget.postModel.postId,
-                widget.index,
-                commentController.text,
-              );
+                  postModel.postId, commentController.text, context);
               commentController.clear();
             },
             icon: const Icon(Icons.send)));

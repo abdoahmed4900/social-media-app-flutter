@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:chat_app/view/widgets/post_widget.dart';
+import 'package:chat_app/models/post.dart';
 import 'package:flutter/material.dart';
 
 import '../../logic/app_bloc/app_bloc.dart';
@@ -8,10 +8,10 @@ import '../../logic/app_bloc/app_bloc.dart';
 class PostSettingsWidget extends StatelessWidget {
   const PostSettingsWidget({
     super.key,
-    required this.widget,
+    required this.postModel,
   });
 
-  final PostWidget widget;
+  final PostModel postModel;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +22,7 @@ class PostSettingsWidget extends StatelessWidget {
           itemBuilder: (context) => [
                 PopupMenuItem(
                     onTap: () {
-                      AppBloc.get(context).removePost(
-                          index: widget.index, postId: widget.postModel.postId);
+                      AppBloc.get(context).removePost(postId: postModel.postId);
                     },
                     child: Row(
                       children: [

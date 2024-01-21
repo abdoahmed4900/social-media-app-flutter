@@ -1,33 +1,15 @@
 import 'dart:convert';
 
-import 'package:chat_app/constants/methods.dart';
+import 'package:chat_app/constants/enums.dart';
+import 'package:chat_app/logic/app_bloc/app_bloc.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 
-import '../../cache/cache_helper/cache_helper.dart';
-import '../../constants/constants.dart';
-
 class NotificationsHelper {
   static late FirebaseMessaging messaging;
   static late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-
-  static Future<void> init() async {
-    messaging = FirebaseMessaging.instance;
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    requestPermission();
-  }
-
-  static Future getToken() async {
-    token = CacheHelper.getString('token');
-    if (token.isEmpty) {
-      token = (await messaging.getToken())!;
-      CacheHelper.setString('token', token);
-    }
-    debugPrint('token : $token');
-    return token;
-  }
 
   static Future requestPermission() async {
     final settings = await messaging.requestPermission(
@@ -60,14 +42,11 @@ class NotificationsHelper {
       onDidReceiveNotificationResponse: (details) {
         try {
           if (details.payload != null && details.payload!.isNotEmpty) {
-            debugPrint('body : ${details.payload}');
-            push(
-                Scaffold(
-                  body: Center(
-                    child: Text(details.payload.toString()),
-                  ),
-                ),
-                context);
+            switch (AppBloc.get(context).notificationType) {
+              case NotificationType.comment:
+                break;
+              default:
+            }
           }
         } catch (e) {
           debugPrint(e.toString());
@@ -100,7 +79,10 @@ class NotificationsHelper {
     });
   }
 
-  static void sendNotification() async {
+  static void sendNotification({
+    required String notificationMessage,
+    required String receiverNotificationToken,
+  }) async {
     await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
         headers: {
           'content-type': 'application/json',
@@ -109,18 +91,17 @@ class NotificationsHelper {
         },
         body: jsonEncode({
           "notification": {
-            "body": "this is a body",
-            "title": "this is a title",
+            "body": notificationMessage,
+            "title": "Socio",
             "android_channel_id": "channel_of_app"
           },
           "priority": "high",
           "data": {
             "click_action": "FLUTTER_NOTIFICATION_CLICK",
             "id": "1",
-            "status": "done",
-            "body": "here is the body",
+            "status": "done"
           },
-          "to": token
+          "to": receiverNotificationToken,
         }));
   }
 }

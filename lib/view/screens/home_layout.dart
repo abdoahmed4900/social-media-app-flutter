@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables
 
+import 'package:chat_app/constants/constants.dart';
 import 'package:chat_app/constants/styles/icon_broken.dart';
 import 'package:chat_app/view/screens/login_screen.dart';
 import 'package:chat_app/view/screens/search_page.dart';
@@ -39,7 +40,12 @@ class HomeLayout extends StatelessWidget {
                   icon: Icon(IconBroken.Search)),
             ],
           ),
-          body: bloc.screens[bloc.bottomNavIndex],
+          body: StreamBuilder(
+            stream: bloc.usersCollection.doc(uId).snapshots(),
+            builder: (context, snapshot) => snapshot.hasData
+                ? bloc.screens[bloc.bottomNavIndex]
+                : LoginScreen(),
+          ),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: bloc.bottomNavIndex,
             onTap: (value) {
